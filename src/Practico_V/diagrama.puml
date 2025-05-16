@@ -1,0 +1,48 @@
+@startuml
+enum EstadoTicket {
+  ABIERTO
+  EN_PROCESO
+  CERRADO
+}
+
+class Usuario {
+  - nombre: String
+  - email: String
+  + getNombre(): String
+  + getEmail(): String
+}
+
+class Tecnico {
+  - nombre: String
+  - especialidad: String
+  + getNombre(): String
+  + getEspecialidad(): String
+}
+
+class TicketSoporte {
+  - id: int
+  - descripcion: String
+  - fecha: LocalDate
+  - estado: EstadoTicket
+  - usuario: Usuario
+  - tecnico: Tecnico
+  + cerrarTicket()
+  + enProceso()
+  + asignarTecnico(tecnico: Tecnico)
+  + toString(): String
+}
+
+class SistemaSoporte {
+  - tickets: List<TicketSoporte>
+  + crearTicket(descripcion: String, usuario: Usuario)
+  + asignarTecnico(id: int, tecnico: Tecnico)
+  + cerrarTicket(id: int)
+  + listarTicketsAbiertos()
+  + listarTicketsCerrados()
+}
+
+Usuario "1" -- "0..*" TicketSoporte
+Tecnico "1" -- "0..*" TicketSoporte
+SistemaSoporte "1" *-- "0..*" TicketSoporte
+
+@enduml
